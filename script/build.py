@@ -39,7 +39,6 @@ def main():
     args += [
       'skia_use_system_freetype2=false',
       # 'skia_enable_gpu=true',
-      # 'skia_use_gl=true',
       'skia_use_metal=true',
       'extra_cflags_cc=["-frtti"]'
     ]
@@ -51,8 +50,8 @@ def main():
     args += [
       'skia_use_system_freetype2=true',
       # 'skia_enable_gpu=true',
-      # 'skia_use_gl=true',
       'extra_cflags_cc=["-frtti"]',
+      'skia_use_egl=true',
     ]
 
     target_triplet = common.target_triplet()
@@ -84,7 +83,7 @@ def main():
   out = os.path.join('out', build_type + '-' + machine)
   gn = 'gn.exe' if 'windows' == system else 'gn'
   subprocess.check_call([os.path.join('bin', gn), 'gen', out, '--args=' + ' '.join(args)])
-  ninja = 'ninja.exe' if 'windows' == system else 'ninja'
+  ninja = 'ninja.bat' if 'windows' == system else 'ninja'
   subprocess.check_call([os.path.join('..', 'depot_tools', ninja), '-C', out, 'skia', 'modules'])
 
   return 0
